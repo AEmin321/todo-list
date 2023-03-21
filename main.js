@@ -1,1 +1,1 @@
-console.log("webpack");
+(()=>{"use strict";document.querySelector(".btn"),document.querySelector("input"),console.log(new class{constructor(t,i,e,r){this.id=Math.floor(99*Math.random())+1,this.title=t,this.discription=i,this.dueDate=e,this.priority=r}get id(){return this.id}set title(t){this.title=t}get title(){return this.title}get priority(){return this.priority}set priority(t){this.priority=t}}("mytitle","the discirtion goes here","12/3/4333","High")+(void 0).id())})();
