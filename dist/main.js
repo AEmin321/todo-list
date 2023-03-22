@@ -1,1 +1,1 @@
-(()=>{"use strict";document.querySelector(".btn"),document.querySelector("input")})();
+document.querySelector(".btn"),document.querySelector("input");
