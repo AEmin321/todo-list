@@ -37,6 +37,7 @@ body {
 .main-links div:hover,.project:hover {
     border-right: 3px solid #4ECCA3;
     cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
 }
 
 .projects {
@@ -56,6 +57,50 @@ body {
     margin-right: 5px;
 }
 
+.content {
+    grid-column: 2/4;
+    background-color: #EEEEEE;
+    padding: 22px;
+    /* box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px; */
+}
+
+.project-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.todo-card {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 0 22px;
+    margin-top: 7px;
+    border-right: 3px solid #232931;
+}
+
+.todo-card {
+    font-size: 1rem;
+}
+
+.todo-card:hover {
+    cursor: default;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+}
+ 
+.card-btns div {
+    cursor: pointer;
+}
+
+.card-btns div {
+    display: inline;
+}
+
+.card-edit {
+    margin-right: 16px;
+}
+
 .footer {
     grid-column: 1/4;
     background-color: #232931;
@@ -63,10 +108,5 @@ body {
     color: white;
     text-align: center;
     font-size: 0.8rem;
-}
-
-.content {
-    grid-column: 2/4;
-    background-color: aquamarine;
 }
 
