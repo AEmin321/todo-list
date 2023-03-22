@@ -15,11 +15,17 @@ class Todo {
     get title () {
         return this.title;
     }
+    set priority (value) {
+        this.priority=value;
+    }
     get priority () {
         return this.priority;
     }
-    set priority (priority) {
-        this.priority=priority;
+    set dueDate (value) {
+        this.dueDate=value;
+    } 
+    get dueDate () {
+        return this.dueDate;
     }
 }
 

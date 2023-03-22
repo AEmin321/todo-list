@@ -1,6 +1,6 @@
 class Project {
     constructor (name) {
-        this.id=rendomId();
+        this.id=randomId();
         this.name=name;
         this.todos=[];
     }
@@ -13,8 +13,14 @@ class Project {
     get todos () {
         return this.todos;
     }
+    set todos (value) {
+        this.todos.push(value);
+    }
     get id () {
         return this.id;
+    }
+    set id (value) {
+        this.id=value;
     }
 }
 
