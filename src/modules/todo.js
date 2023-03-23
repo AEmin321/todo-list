@@ -1,32 +1,32 @@
 export default class Todo {
-    constructor (title,discription,dueDate,priority,checked) {
-        this.id=randomId();
-        this.title=title;
-        this.checked=checked;
-        this.discription=discription;
-        this.dueDate=dueDate;
-        this.priority=priority;
+    constructor (title,discription,dueDate,priority) {
+        this._id=randomId();
+        this._title=title;
+        this._checked=false;
+        this._discription=discription;
+        this._dueDate=dueDate;
+        this._priority=priority;
     }
     get id () {
-        return this.id;
+        return this._id;
     }
     set title (title) {
-        this.title=title;
+        this._title=title;
     }
     get title () {
-        return this.title;
+        return this._title;
     }
     set priority (value) {
-        this.priority=value;
+        this._priority=value;
     }
     get priority () {
-        return this.priority;
+        return this._priority;
     }
     set dueDate (value) {
-        this.dueDate=value;
+        this._dueDate=value;
     } 
     get dueDate () {
-        return this.dueDate;
+        return this._dueDate;
     }
 }
 

@@ -2,20 +2,20 @@ import Todo from "./todo";
 
 export default class Project {
     constructor (name) {
-        this.id=randomId();
-        this.name=name;
-        this.todos=[];
+        this._id=randomId();
+        this._name=name;
+        this._todos=[];
     }
-    add (title,discription,dueDate,priority,checked) {
-        const todo=new Todo(title,discription,dueDate,priority,checked);
-        this.todos.push(todo);
+    add (title,discription,dueDate,priority) {
+        const todo=new Todo(title,discription,dueDate,priority);
+        this._todos.push(todo);
     }
-    // get name () {
-    //     return this.name;
-    // }
-    // set name (value) {
-    //     this.name=value;
-    // }
+    get name () {
+        return this._name;
+    }
+    set name (value) {
+        this._name=value;
+    }
 }
 
 function randomId () {

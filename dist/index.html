@@ -45,7 +45,7 @@
         </div>
         <div class="add-todo-overlay" hidden>
             <div class="add-todo-modal">
-                <form action="#">
+                <form class="todo-form" action="#">
                     <div>
                         <label for="title">Title</label>
                         <input type="text" id="title" name="title" required>
@@ -60,7 +60,7 @@
                     </div>
                     <div>
                         <label for="priority">Priority</label>
-                        <select name="" id="">
+                        <select name="priority" id="priority">
                             <option value="high"><i class="fa-solid fa-flag" style="color: #db0000;"></i>High</option>
                             <option value="medium">Medium</option>
                             <option value="low">Low</option>
@@ -68,14 +68,14 @@
                     </div>
                     <div>
                         <label for="project">Select Project</label>
-                        <select name="projects" id="project">
-                            <option value="high"><i class="fa-solid fa-flag" style="color: #db0000;"></i>High</option>
+                        <select name="project" id="project">
+                            <!-- <option value="high"><i class="fa-solid fa-flag" style="color: #db0000;"></i>High</option>
                             <option value="medium">Medium</option>
-                            <option value="low">Low</option>
+                            <option value="low">Low</option> -->
                         </select>
                     </div>
                     <div class="form-btns">
-                        <button class="todo-submit-btn">Submit</button>
+                        <button type="submit" class="todo-submit-btn">Submit</button>
                         <button class="todo-cancel-btn">Cancel</button>
                     </div>
                 </form>
