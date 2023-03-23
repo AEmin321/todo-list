@@ -27,7 +27,9 @@
         <div class="projects-section">
             <div class="projects">
                 <div class="pro-title">Projects</div>
-                <i class="add-pro-btn fa-solid fa-square-plus fa-xl" style="color: #232931;"></i>
+                <div class="add-pro-btn">
+                    <i class="fa-solid fa-square-plus fa-xl" style="color: #232931;"></i>
+                </div>
             </div>
             <div class="project">
                 <a><i class="icon fa-solid fa-table-list" style="color: #232931;"></i>  Test</a>
@@ -35,8 +37,21 @@
         </div>
     </div>
     <div class="content">
-        <div class="project-title">Inbox</div>
-        
+        <div class="project-title">
+            <div class="title">Inbox</div>
+            <div class="add-todo-btn">
+                <i class="fa-solid fa-square-plus fa-xl" style="color: #232931;"></i>
+            </div>
+        </div>
+        <div class="add-pro-overlay" hidden>
+            <div class="add-pro-modal">
+                <div class="name-input">
+                    <label for="project-name">Enter Project Name:</label>
+                    <input type="text" id="project-name" required>
+                </div>
+                <button class="pro-submit-btn">Submit</button>
+            </div>
+        </div>
         <div class="todo-card">
             <h5 class="card-title">this is just a test</h5>
             <p class="card-duedate">12/312/1241</p>

@@ -15,7 +15,7 @@ body {
 .header {
     grid-column: 1/5;
     background-color: #4ECCA3;
-    padding: 15px 27px;
+    padding: 22px 33px;
 }
 
 .logo {
@@ -68,6 +68,11 @@ body {
     font-size: 1.5rem;
     font-weight: 700;
     margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 7px 12px 7px;
+    border-bottom: 1px solid #232931;
 }
 
 .todo-card {
@@ -78,14 +83,10 @@ body {
     padding: 0 22px;
     margin-top: 7px;
     border-right: 3px solid #232931;
-}
-
-.todo-card {
-    font-size: 1rem;
+    cursor: pointer;
 }
 
 .todo-card:hover {
-    cursor: default;
     box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
 }
  
@@ -99,6 +100,53 @@ body {
 
 .card-edit {
     margin-right: 16px;
+}
+
+.add-pro-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    color: white;
+    z-index: 5;
+    backdrop-filter: blur(5px);
+}
+
+.add-pro-modal {
+    position: fixed;
+    background-color: #232931;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 15px;
+    text-align: center;
+    color: white;
+    z-index: 6;
+}
+
+.add-pro-overlay label {
+    font-size: 0.8rem;
+    margin-bottom: 15px;
+}
+
+.add-pro-overlay input {
+    border: none;
+    border-bottom: 2px solid #4ECCA3;
+    background-color: #232931;
+    outline: none;
+    color: white;
+    display:block;
+    margin: 12px;
+}
+
+.add-pro-overlay button {
+    background-color: #4ECCA3;
+    border: none;
+    padding: 10px 33px;
+    color: #232931;
+    margin: 10px;
+    cursor: pointer;
 }
 
 .footer {
