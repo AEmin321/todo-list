@@ -18,9 +18,9 @@ export default function handlingDom () {
             proBtnOverlay.hidden=true;
             addProject(projectNameInput.value);
         }
+        console.log (ProjectsData);
         projectNameInput.value='';
     })
-    console.log (ProjectsData);
 }
 
 function addProject (name) {
@@ -28,7 +28,12 @@ function addProject (name) {
     ProjectsData.push(newProject);
     const proDiv=document.createElement('div');
     proDiv.classList.add('project');
+    proDiv.dataset.id=newProject.id;
     proDiv.innerHTML=`<a><i class="icon fa-solid fa-table-list" style="color: #232931;"></i>  ${name}</a>`;
     projectsSecion.appendChild(proDiv);
 }
+
+function addTodo (title,discription,dueDate,priority,checked);
+
+
 

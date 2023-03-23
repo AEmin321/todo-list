@@ -2,7 +2,7 @@ import Todo from "./todo";
 
 export default class Project {
     constructor (name) {
-        this.id=Date.now();
+        this.id=randomId();
         this.name=name;
         this.todos=[];
     }
