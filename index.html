@@ -43,6 +43,44 @@
                 <i class="fa-solid fa-square-plus fa-xl" style="color: #232931;"></i>
             </div>
         </div>
+        <div class="add-todo-overlay" hidden>
+            <div class="add-todo-modal">
+                <form action="#">
+                    <div>
+                        <label for="title">Title</label>
+                        <input type="text" id="title" name="title" required>
+                    </div>
+                    <div>
+                        <label for="discription">Details</label>
+                        <textarea name="details" id="discription" cols="30" rows="6"></textarea>
+                    </div>
+                    <div>
+                        <label for="date">Date</label>
+                        <input type="date" id="date" name="dueDate">
+                    </div>
+                    <div>
+                        <label for="priority">Priority</label>
+                        <select name="" id="">
+                            <option value="high"><i class="fa-solid fa-flag" style="color: #db0000;"></i>High</option>
+                            <option value="medium">Medium</option>
+                            <option value="low">Low</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="project">Select Project</label>
+                        <select name="projects" id="project">
+                            <option value="high"><i class="fa-solid fa-flag" style="color: #db0000;"></i>High</option>
+                            <option value="medium">Medium</option>
+                            <option value="low">Low</option>
+                        </select>
+                    </div>
+                    <div class="form-btns">
+                        <button class="todo-submit-btn">Submit</button>
+                        <button class="todo-cancel-btn">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
         <div class="add-pro-overlay" hidden>
             <div class="add-pro-modal">
                 <div class="name-input">
