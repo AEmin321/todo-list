@@ -1,7 +1,8 @@
-class Todo {
-    constructor (title,discription,dueDate,priority) {
+export default class Todo {
+    constructor (title,discription,dueDate,priority,checked) {
         this.id=randomId();
         this.title=title;
+        this.checked=checked;
         this.discription=discription;
         this.dueDate=dueDate;
         this.priority=priority;
@@ -31,9 +32,4 @@ class Todo {
 
 function randomId () {
     return Math.floor(Math.random()*99) + 1;
-}
-
-export default function (title,discription,dueDate,priority) {
-    const todo=new Todo(title,discription,dueDate,priority);
-    return todo;
 }

@@ -1,34 +1,23 @@
-class Project {
+import Todo from "./todo";
+
+export default class Project {
     constructor (name) {
-        this.id=randomId();
+        this.id=Date.now();
         this.name=name;
         this.todos=[];
     }
-    get name () {
-        return this.name;
-    }
-    set todos (todo) {
+    add (title,discription,dueDate,priority,checked) {
+        const todo=new Todo(title,discription,dueDate,priority,checked);
         this.todos.push(todo);
     }
-    get todos () {
-        return this.todos;
-    }
-    set todos (value) {
-        this.todos.push(value);
-    }
-    get id () {
-        return this.id;
-    }
-    set id (value) {
-        this.id=value;
-    }
+    // get name () {
+    //     return this.name;
+    // }
+    // set name (value) {
+    //     this.name=value;
+    // }
 }
 
 function randomId () {
     return Math.floor(Math.random()*99)+1;
 }
-
-export default function createProject (name) {
-    const newProject=new Project(name);
-    return newProject;
-} 
