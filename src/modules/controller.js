@@ -3,7 +3,7 @@ import Project from './project';
 
 export const ProjectsData=[];
 
-const test=new Project('test');
+const test=new Project('default');
 ProjectsData.push(test);
 
 const docBody=document.querySelector('body');
@@ -14,10 +14,10 @@ const todoBtnOverlay=document.querySelector('.add-todo-overlay');
 const todoForm=document.querySelector('.todo-form');
 const todoOverlaySelect=document.querySelector('#project');
 const contentDiv=document.querySelector('.content');
-const contentTitle=document.querySelector('.title');
 const todoOverlayCancel=document.querySelector('.todo-cancel-btn');
 
 export default function handlingDomEvents () {
+    renderContentHeader('Inbox');
     docBody.addEventListener('click',(event)=>{
         // add project btn overlay events
         if (event.target.classList.contains('project-btn')){
@@ -27,6 +27,7 @@ export default function handlingDomEvents () {
             if (projectNameInput.validity.valid) {
                 proBtnOverlay.hidden=true;
                 addProject(projectNameInput.value);
+                updateOverlaySelect(projectNameInput.value);
             }
             console.log (ProjectsData);
             projectNameInput.value='';
@@ -35,7 +36,6 @@ export default function handlingDomEvents () {
         // add todo button overlay events  --submit event
         if (event.target.classList.contains('todo-btn')) {
             todoBtnOverlay.hidden=false;
-            updateOverlaySelect();
         }
         if (event.target.classList.contains('todo-submit-btn')) {
             event.preventDefault();
@@ -47,8 +47,14 @@ export default function handlingDomEvents () {
 
             if (title!='' && date!='') {
                 addTodo(title,discription,date,priority,project);
-                todoBtnOverlay.hidden=true;
-                console.log (ProjectsData);
+                ProjectsData.forEach((pro)=>{
+                    if (project.toLowerCase().trim()===pro._name.toLowerCase().trim()) {
+                        contentDiv.textContent='';
+                        renderContentHeader(pro._name);
+                        printTodos(pro._todos);
+                        todoBtnOverlay.hidden=true;
+                    }
+                })
             } 
         }
         // cancel event
@@ -59,20 +65,21 @@ export default function handlingDomEvents () {
         // leftside project button events
         if (event.target.classList.contains('side-project') || event.target.classList.contains('project')) {
             const proName=event.target.textContent;
-            contentTitle.textContent=proName;
-            console.log (proName);
             for (let pro of ProjectsData) {
-                console.log (typeof pro._name+'=='+typeof proName);
+                console.log (typeof pro._name+'==');
                 if (proName.toLowerCase().trim() === pro._name.toLowerCase().trim()) {
                     console.log ("it passed the test bro");
                     contentDiv.textContent='';
+                    renderContentHeader(proName);
                     printTodos(pro._todos);
                 }
             }
         }
 
         //inbox button event handler
-        if (event.target.classList.contains('inbox') || event.target.classList.contains('inbox-btn')) {
+        if (event.target.classList.contains('inbox') || event.target.classList.contains('inbox-link')) {
+            contentDiv.textContent='';
+            renderContentHeader('Inbox');
             ProjectsData.forEach((project)=>{
                 printTodos(project._todos);
             })
@@ -95,8 +102,9 @@ function printTodos (todos) {
         const todoCard=document.createElement('div');
         todoCard.classList.add('todo-card');
         todoCard.dataset.id=todo._id;
+        todoCard.style.borderRight=getPrioColor(todo._priority);
         todoCard.innerHTML=`
-        <h5 class="card-title">${todo._title}</h5>
+        <p class="card-title">${todo._title}</p>
         <p class="card-duedate">${todo._dueDate}</p>
         <div class="card-btns">
             <div class="card-edit">
@@ -116,37 +124,36 @@ function addTodo (title,discription,dueDate,priority,selectedProject) {
             // project.add(title,discription,dueDate,priority);
             const todo=new Todo(title,discription,dueDate,priority);
             project._todos.push(todo);
-            const todoCard=document.createElement('div');
-            todoCard.classList.add('todo-card');
-            todoCard.dataset.id=todo._id;
-            console.log (getPrioColor(priority));
-            todoCard.style.borderRight=getPrioColor(priority);
-            todoCard.innerHTML=`
-            <h5 class="card-title">${title}</h5>
-            <p class="card-duedate">${dueDate}</p>
-            <div class="card-btns">
-                <div class="card-edit">
-                    <i class="fa-regular fa-pen-to-square fa-lg" style="color: #363636;"></i>
-                </div>
-                <div class="card-remove">
-                    <i class="fa-solid fa-delete-left fa-lg" style="color: #212121;"></i>
-                </div>
-            </div>`;
-            contentDiv.appendChild(todoCard);
+            // const todoCard=document.createElement('div');
+            // todoCard.classList.add('todo-card');
+            // todoCard.dataset.id=todo._id;
+            // console.log (getPrioColor(priority));
+            // todoCard.style.borderRight=getPrioColor(priority);
+            // todoCard.innerHTML=`
+            // <p class="card-title">${title}</p>
+            // <p class="card-duedate">${dueDate}</p>
+            // <div class="card-btns">
+            //     <div class="card-edit">
+            //         <i class="fa-regular fa-pen-to-square fa-lg" style="color: #363636;"></i>
+            //     </div>
+            //     <div class="card-remove">
+            //         <i class="fa-solid fa-delete-left fa-lg" style="color: #212121;"></i>
+            //     </div>
+            // </div>`;
+            // contentDiv.appendChild(todoCard);
         }
     })
 }
 
 // updating the project names in add todo overlay
-function updateOverlaySelect () {
-    ProjectsData.forEach((project)=>{
-        const option=document.createElement('option');
-        option.text=project._name;
-        todoOverlaySelect.options.add(option);
-        console.log (project._name);
-    })
+function updateOverlaySelect (projectName) {
+    const option=document.createElement('option');
+    option.text=projectName;
+    todoOverlaySelect.options.add(option);
+    console.log (project._name);  
 }
 
+//returning color based on priority
 function getPrioColor (prio) {
     if (prio==='high') {
         return "thick solid #DF2E38";
@@ -157,5 +164,16 @@ function getPrioColor (prio) {
     else if (prio==='low') {
         return "thick solid #FFC93C";
     }
+}
+//rendering content header section
+function renderContentHeader (contentTitle) {
+    const wrapper=document.createElement('div');
+    wrapper.classList.add('project-title');
+    wrapper.innerHTML=`
+    <div class="title">${contentTitle}</div>
+    <div class="add-todo-btn">
+        <i class="todo-btn fa-solid fa-square-plus fa-xl" style="color: #232931;"></i>
+    </div>`;
+    contentDiv.appendChild(wrapper);
 }
 
