@@ -15,7 +15,7 @@
     <div class="sidebar">
         <div class="main-links">
             <div class="inbox">
-                <a><i class="icon fa-solid fa-inbox" style="color: #232931;"></i> Inbox</a>
+                <a class="inbox-link"><i class="icon fa-solid fa-inbox" style="color: #232931;"></i> Inbox</a>
             </div>
             <div class="today">
                 <a><i class="icon fa-solid fa-calendar-day" style="color: #232931;"></i> Today</a>
@@ -32,7 +32,7 @@
                 </div>
             </div>
             <div class="project">
-                <a class="side-project"><i class="side-project icon fa-solid fa-table-list" style="color: #232931;"></i>  Test</a>
+                <a class="side-project"><i class="icon fa-solid fa-table-list" style="color: #232931;"></i>  Test</a>
             </div>
         </div>
     </div>
@@ -41,53 +41,6 @@
             <div class="title">Inbox</div>
             <div class="add-todo-btn">
                 <i class="todo-btn fa-solid fa-square-plus fa-xl" style="color: #232931;"></i>
-            </div>
-        </div>
-        <div class="add-todo-overlay" hidden>
-            <div class="add-todo-modal">
-                <form class="todo-form" action="#">
-                    <div>
-                        <label for="title">Title</label>
-                        <input type="text" id="title" name="title" required>
-                    </div>
-                    <div>
-                        <label for="discription">Details</label>
-                        <textarea name="details" id="discription" cols="30" rows="6"></textarea>
-                    </div>
-                    <div>
-                        <label for="date">Date</label>
-                        <input type="date" id="date" name="dueDate" required>
-                    </div>
-                    <div>
-                        <label for="priority">Priority</label>
-                        <select name="priority" id="priority">
-                            <option value="high"><i class="fa-solid fa-flag" style="color: #db0000;"></i>High</option>
-                            <option value="medium">Medium</option>
-                            <option value="low">Low</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label for="project">Select Project</label>
-                        <select name="project" id="project">
-                            <!-- <option value="high"><i class="fa-solid fa-flag" style="color: #db0000;"></i>High</option>
-                            <option value="medium">Medium</option>
-                            <option value="low">Low</option> -->
-                        </select>
-                    </div>
-                    <div class="form-btns">
-                        <button type="reset" class="todo-cancel-btn">Cancel</button>
-                        <button type="submit" class="todo-submit-btn">Submit</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-        <div class="add-pro-overlay" hidden>
-            <div class="add-pro-modal">
-                <div class="name-input">
-                    <label for="project-name">Enter Project Name:</label>
-                    <input type="text" id="project-name" required>
-                </div>
-                <button class="pro-submit-btn">Submit</button>
             </div>
         </div>
         <div class="todo-card">
@@ -101,6 +54,53 @@
                     <i class="fa-solid fa-delete-left fa-lg" style="color: #212121;"></i>
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="add-todo-overlay" hidden>
+        <div class="add-todo-modal">
+            <form class="todo-form" action="#">
+                <div>
+                    <label for="title">Title</label>
+                    <input type="text" id="title" name="title" required>
+                </div>
+                <div>
+                    <label for="discription">Details</label>
+                    <textarea name="details" id="discription" cols="30" rows="6"></textarea>
+                </div>
+                <div>
+                    <label for="date">Date</label>
+                    <input type="date" id="date" name="dueDate" required>
+                </div>
+                <div>
+                    <label for="priority">Priority</label>
+                    <select name="priority" id="priority">
+                        <option value="high"><i class="fa-solid fa-flag" style="color: #db0000;"></i>High</option>
+                        <option value="medium">Medium</option>
+                        <option value="low">Low</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="project">Select Project</label>
+                    <select name="project" id="project">
+                        <!-- <option value="high"><i class="fa-solid fa-flag" style="color: #db0000;"></i>High</option>
+                        <option value="medium">Medium</option>
+                        <option value="low">Low</option> -->
+                    </select>
+                </div>
+                <div class="form-btns">
+                    <button type="reset" class="todo-cancel-btn">Cancel</button>
+                    <button type="submit" class="todo-submit-btn">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="add-pro-overlay" hidden>
+        <div class="add-pro-modal">
+            <div class="name-input">
+                <label for="project-name">Enter Project Name:</label>
+                <input type="text" id="project-name" required>
+            </div>
+            <button class="pro-submit-btn">Submit</button>
         </div>
     </div>
     <div class="footer">© Amini 2023</div>
