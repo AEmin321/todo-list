@@ -11,18 +11,15 @@ const proBtnOverlay=document.querySelector('.add-pro-overlay');
 const projectsSecion=document.querySelector('.projects-section');
 const projectNameInput=document.querySelector('#project-name');
 const todoBtnOverlay=document.querySelector('.add-todo-overlay');
-const addTodoBtn=document.querySelector('.add-todo-btn');
-const todoSubmitBtn=document.querySelector('.todo-submit-btn');
 const todoForm=document.querySelector('.todo-form');
 const todoOverlaySelect=document.querySelector('#project');
 const contentDiv=document.querySelector('.content');
 const contentTitle=document.querySelector('.title');
 const todoOverlayCancel=document.querySelector('.todo-cancel-btn');
 
-export default function handlingDom () {
+export default function handlingDomEvents () {
     docBody.addEventListener('click',(event)=>{
         // add project btn overlay events
-        console.log (event.target);
         if (event.target.classList.contains('project-btn')){
             proBtnOverlay.hidden=false;
         }
@@ -49,8 +46,9 @@ export default function handlingDom () {
             const project=todoForm.elements.project.value;
 
             if (title!='' && date!='') {
-                addTodo(title,discription,date,priority,'test');
+                addTodo(title,discription,date,priority,project);
                 todoBtnOverlay.hidden=true;
+                console.log (ProjectsData);
             } 
         }
         // cancel event
@@ -58,10 +56,26 @@ export default function handlingDom () {
             todoOverlayCancel.addEventListener('click',()=>todoBtnOverlay.hidden=true)
         }
 
-        // leftside project buttons events
+        // leftside project button events
         if (event.target.classList.contains('side-project') || event.target.classList.contains('project')) {
-            contentTitle.textContent=event.target.textContent;
-            console.log (event.target.dataset.id);
+            const proName=event.target.textContent;
+            contentTitle.textContent=proName;
+            console.log (proName);
+            for (let pro of ProjectsData) {
+                console.log (typeof pro._name+'=='+typeof proName);
+                if (proName.toLowerCase().trim() === pro._name.toLowerCase().trim()) {
+                    console.log ("it passed the test bro");
+                    contentDiv.textContent='';
+                    printTodos(pro._todos);
+                }
+            }
+        }
+
+        //inbox button event handler
+        if (event.target.classList.contains('inbox') || event.target.classList.contains('inbox-btn')) {
+            ProjectsData.forEach((project)=>{
+                printTodos(project._todos);
+            })
         }
     })
 }
@@ -72,7 +86,7 @@ function addProject (name) {
     const proDiv=document.createElement('div');
     proDiv.classList.add('project');
     proDiv.dataset.id=newProject._id;
-    proDiv.innerHTML=`<a><i class="icon fa-solid fa-table-list" style="color: #232931;"></i>  ${name}</a>`;
+    proDiv.innerHTML=`<a class="side-project"><i class="icon fa-solid fa-table-list" style="color: #232931;"></i>  ${name}</a>`;
     projectsSecion.appendChild(proDiv);
 }
 
