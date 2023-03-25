@@ -7,6 +7,12 @@ export default class Todo {
         this._dueDate=dueDate;
         this._priority=priority;
     }
+    set checked (value) {
+        this._checked=value;
+    }
+    get checked () {
+        return this._checked;
+    }
     get id () {
         return this._id;
     }

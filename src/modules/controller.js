@@ -19,6 +19,7 @@ const todoOverlayCancel=document.querySelector('.todo-cancel-btn');
 export default function handlingDomEvents () {
     renderContentHeader('Inbox');
     docBody.addEventListener('click',(event)=>{
+        console.log (event.target);
         // add project btn overlay events
         if (event.target.classList.contains('project-btn')){
             proBtnOverlay.hidden=false;
@@ -53,6 +54,7 @@ export default function handlingDomEvents () {
                         renderContentHeader(pro._name);
                         printTodos(pro._todos);
                         todoBtnOverlay.hidden=true;
+                        todoForm.reset();
                     }
                 })
             } 
@@ -84,6 +86,24 @@ export default function handlingDomEvents () {
                 printTodos(project._todos);
             })
         }
+
+        //todo card remove button event
+        if (event.target.classList.contains('card-rm')) {
+            const getId=event.target.parentElement.parentElement.parentElement.dataset.id;
+            console.log (getId);
+            ProjectsData.forEach((project)=>{
+                project._todos.forEach((todo,index)=>{
+                    if (todo._id==getId) {
+                        project.removeTodo(index);
+                        contentDiv.textContent='';
+                        renderContentHeader(project._name);
+                        printTodos(project._todos);
+                    }
+                })
+            })
+        }
+
+        
     })
 }
 
@@ -111,7 +131,7 @@ function printTodos (todos) {
                 <i class="fa-regular fa-pen-to-square fa-lg" style="color: #363636;"></i>
             </div>
             <div class="card-remove">
-                <i class="fa-solid fa-delete-left fa-lg" style="color: #212121;"></i>
+                <i class="card-rm fa-solid fa-delete-left fa-lg" style="color: #212121;"></i>
             </div>
         </div>`;
         contentDiv.appendChild(todoCard);
@@ -121,26 +141,8 @@ function printTodos (todos) {
 function addTodo (title,discription,dueDate,priority,selectedProject) {
     ProjectsData.forEach((project)=>{
         if (project._name===selectedProject) {
-            // project.add(title,discription,dueDate,priority);
             const todo=new Todo(title,discription,dueDate,priority);
             project._todos.push(todo);
-            // const todoCard=document.createElement('div');
-            // todoCard.classList.add('todo-card');
-            // todoCard.dataset.id=todo._id;
-            // console.log (getPrioColor(priority));
-            // todoCard.style.borderRight=getPrioColor(priority);
-            // todoCard.innerHTML=`
-            // <p class="card-title">${title}</p>
-            // <p class="card-duedate">${dueDate}</p>
-            // <div class="card-btns">
-            //     <div class="card-edit">
-            //         <i class="fa-regular fa-pen-to-square fa-lg" style="color: #363636;"></i>
-            //     </div>
-            //     <div class="card-remove">
-            //         <i class="fa-solid fa-delete-left fa-lg" style="color: #212121;"></i>
-            //     </div>
-            // </div>`;
-            // contentDiv.appendChild(todoCard);
         }
     })
 }

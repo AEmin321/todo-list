@@ -87,6 +87,11 @@ body {
     cursor: pointer;
 }
 
+.todo-card-checked {
+    text-decoration: line-through;
+    background-color: #4ECCA3;
+}
+
 .card-title {
     width: 50%;
     font-weight: 700;

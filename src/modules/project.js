@@ -6,9 +6,8 @@ export default class Project {
         this._name=name;
         this._todos=[];
     }
-    add (title,discription,dueDate,priority) {
-        const todo=new Todo(title,discription,dueDate,priority);
-        this._todos.push(todo);
+    removeTodo (index) {
+        this._todos.splice(index,1);
     }
     get name () {
         return this._name;
