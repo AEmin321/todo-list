@@ -103,7 +103,19 @@ export default function handlingDomEvents () {
             })
         }
 
-        
+        //project card edit button event handle
+        if (event.target.classList.contains('card-title')) {
+            const todoCardId=event.target.parentElement.dataset.id;
+            const todoCard=event.target.parentElement;
+            ProjectsData.forEach((project)=>{
+                project._todos.forEach((todo)=>{
+                    if (todo._id==todoCardId) {
+                        switchChecked(todo);
+                        todoCard.classList.toggle('todo-card-checked');
+                    }
+                })
+            })
+        }
     })
 }
 
@@ -122,6 +134,11 @@ function printTodos (todos) {
         const todoCard=document.createElement('div');
         todoCard.classList.add('todo-card');
         todoCard.dataset.id=todo._id;
+
+        if (todo._checked){
+            todoCard.classList.add('todo-card-checked');
+        }
+
         todoCard.style.borderRight=getPrioColor(todo._priority);
         todoCard.innerHTML=`
         <p class="card-title">${todo._title}</p>
@@ -178,4 +195,15 @@ function renderContentHeader (contentTitle) {
     </div>`;
     contentDiv.appendChild(wrapper);
 }
+
+//switching status of todo
+function switchChecked (todo) {
+    if (!todo._checked) {
+        todo.checked=true;
+    }
+    else if (todo._checked) {
+        todo.checked=false;
+    }
+}
+
 
