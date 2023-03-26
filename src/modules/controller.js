@@ -22,6 +22,7 @@ const projectSelectDiv=document.querySelector('.project-select');
 export default function handlingDomEvents () {
     renderContentHeader('Inbox');
     renderProjectHeader();
+    printProjects();
 
     docBody.addEventListener('click',(event)=>{
         console.log (event.target);
@@ -176,6 +177,8 @@ export default function handlingDomEvents () {
                     ProjectsData.splice(index,1);
                 }
             })
+            projectsSecion.innerHTML='';
+            renderProjectHeader();
             printProjects(ProjectsData);
         }
     })
@@ -287,10 +290,8 @@ function renderProjectHeader () {
     <div class="add-pro-btn">
         <i class="project-btn fa-solid fa-square-plus fa-xl" style="color: #232931;"></i>
     </div>`;
-    defaultProject.classList.add('project');
-    defaultProject.innerHTML=`<a class="side-project"><i class="icon fa-solid fa-table-list" style="color: #232931;"></i>  default</a>`;
+
     projectsSecion.appendChild(projectHeader);
-    projectsSecion.appendChild(defaultProject);
 }
 
 //switching status of todo
