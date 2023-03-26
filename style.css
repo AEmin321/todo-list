@@ -35,10 +35,26 @@ body {
     margin: 7px 0;
 }
 
-.main-links div:hover,.project:hover {
+.main-links div:hover {
     border-right: 3px solid #4ECCA3;
     cursor: pointer;
     box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+}
+
+.project:hover {
+    position: relative;
+    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+}
+
+.project:hover .remove-project::after {
+    content: "x";
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-weight: 800;
+    padding: 6px 10px;
+    background-color: #4ECCA3;
 }
 
 .projects {
