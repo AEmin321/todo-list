@@ -15,6 +15,9 @@ const todoForm=document.querySelector('.todo-form');
 const todoOverlaySelect=document.querySelector('#project');
 const contentDiv=document.querySelector('.content');
 const todoOverlayCancel=document.querySelector('.todo-cancel-btn');
+const todoUpdateBtn=document.querySelector('.todo-update-btn');
+const todoSubmitBtn=document.querySelector('.todo-submit-btn');
+const projectSelectDiv=document.querySelector('.project-select');
 
 export default function handlingDomEvents () {
     renderContentHeader('Inbox');
@@ -41,7 +44,7 @@ export default function handlingDomEvents () {
         if (event.target.classList.contains('todo-submit-btn')) {
             event.preventDefault();
             const title=todoForm.elements.title.value;
-            const discription=todoForm.elements.discription.value;
+            const discription=todoForm.elements.details.value;
             const date=todoForm.elements.dueDate.value;
             const priority=todoForm.elements.priority.value;
             const project=todoForm.elements.project.value;
@@ -103,7 +106,7 @@ export default function handlingDomEvents () {
             })
         }
 
-        //project card edit button event handle
+        //project card toggle check event handler
         if (event.target.classList.contains('card-title')) {
             const todoCardId=event.target.parentElement.dataset.id;
             const todoCard=event.target.parentElement;
@@ -116,6 +119,49 @@ export default function handlingDomEvents () {
                 })
             })
         }
+
+        //todo card edit overlay button event handler
+        if (event.target.classList.contains('edit-card')) {
+            const cardId=event.target.parentElement.parentElement.parentElement.dataset.id;
+            ProjectsData.forEach((project,projectIndex)=>{
+                project._todos.forEach((todo,todoIndex)=>{
+                    if (todo._id==cardId) {
+                        todoForm.reset();
+                        todoForm.elements.title.value=todo._title;
+                        todoForm.elements.details.value=todo._discription;
+                        todoForm.elements.dueDate.value=todo._dueDate;
+                        todoForm.elements.priority.value=todo._priority.toLowerCase();
+                        todoForm.elements.project.value=project._name.toLowerCase();
+
+                        todoForm.dataset.toIndex=todoIndex;
+                        todoForm.dataset.proIndex=projectIndex;
+
+                        todoBtnOverlay.hidden=false;     
+                        todoUpdateBtn.hidden=false;  
+                        todoSubmitBtn.hidden=true;
+                        projectSelectDiv.hidden=true;
+                    }
+                })
+            })
+        }
+
+        //edit form cancel button event
+        if (event.target.classList.contains('todo-update-btn')) {
+            event.preventDefault();
+            const todoIndex=Number(event.target.parentElement.parentElement.dataset.toIndex);
+            const projectIndex=Number(event.target.parentElement.parentElement.dataset.proIndex);
+            const projectName=ProjectsData[projectIndex]._name;
+
+            updateTodo(ProjectsData[projectIndex]._todos[todoIndex]);
+            contentDiv.textContent='';
+            renderContentHeader(projectName);
+            printTodos(ProjectsData[projectIndex]._todos);
+            todoSubmitBtn.hidden=false;
+            todoUpdateBtn.hidden=true;
+            todoBtnOverlay.hidden=true;
+            projectSelectDiv.hidden=false;
+            todoForm.reset();
+        }   
     })
 }
 
@@ -145,7 +191,7 @@ function printTodos (todos) {
         <p class="card-duedate">${todo._dueDate}</p>
         <div class="card-btns">
             <div class="card-edit">
-                <i class="fa-regular fa-pen-to-square fa-lg" style="color: #363636;"></i>
+                <i class="edit-card fa-regular fa-pen-to-square fa-lg" style="color: #363636;"></i>
             </div>
             <div class="card-remove">
                 <i class="card-rm fa-solid fa-delete-left fa-lg" style="color: #212121;"></i>
@@ -155,6 +201,17 @@ function printTodos (todos) {
     })
 }
 
+//update the values of todo
+function updateTodo (todo) {
+    if (todoForm.elements.title!='' || todoForm.elements.dueDate!='') {
+        todo.title=todoForm.elements.title.value;
+        todo.discription=todoForm.elements.details.value;
+        todo.dueDate=todoForm.elements.dueDate.value;
+        todo.priority=todoForm.elements.priority.value;
+    }
+}
+
+//Adds todo to the related project todos
 function addTodo (title,discription,dueDate,priority,selectedProject) {
     ProjectsData.forEach((project)=>{
         if (project._name===selectedProject) {
@@ -205,5 +262,6 @@ function switchChecked (todo) {
         todo.checked=false;
     }
 }
+
 
 
