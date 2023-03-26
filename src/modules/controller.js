@@ -21,6 +21,8 @@ const projectSelectDiv=document.querySelector('.project-select');
 
 export default function handlingDomEvents () {
     renderContentHeader('Inbox');
+    renderProjectHeader();
+
     docBody.addEventListener('click',(event)=>{
         console.log (event.target);
         // add project btn overlay events
@@ -31,6 +33,9 @@ export default function handlingDomEvents () {
             if (projectNameInput.validity.valid) {
                 proBtnOverlay.hidden=true;
                 addProject(projectNameInput.value);
+                projectsSecion.innerHTML='';
+                renderProjectHeader();
+                printProjects();
                 updateOverlaySelect(projectNameInput.value);
             }
             console.log (ProjectsData);
@@ -161,20 +166,39 @@ export default function handlingDomEvents () {
             todoBtnOverlay.hidden=true;
             projectSelectDiv.hidden=false;
             todoForm.reset();
-        }   
+        }  
+        
+        //remove project button event
+        if (event.target.classList.contains('remove-project')) {
+            const projectIndex=event.target.parentElement.parentElement.dataset.id;
+            ProjectsData.forEach((project,index)=>{
+                if (project._id==projectIndex) {
+                    ProjectsData.splice(index,1);
+                }
+            })
+            printProjects(ProjectsData);
+        }
     })
 }
 
+//Adds project to dom and array of objects
 function addProject (name) {
     const newProject=new Project(name);
     ProjectsData.push(newProject);
-    const proDiv=document.createElement('div');
-    proDiv.classList.add('project');
-    proDiv.dataset.id=newProject._id;
-    proDiv.innerHTML=`<a class="side-project"><i class="icon fa-solid fa-table-list" style="color: #232931;"></i>  ${name}</a>`;
-    projectsSecion.appendChild(proDiv);
 }
 
+//prints projects inside array
+function printProjects () {
+    ProjectsData.forEach((project,index)=>{
+        const proDiv=document.createElement('div');
+        proDiv.classList.add('project');
+        proDiv.dataset.id=project._id;
+        proDiv.innerHTML=`<a class="side-project"><i class="icon fa-solid fa-table-list" style="color: #232931;"></i>  ${project._name}<span class="remove-project"></span></a>`;
+        projectsSecion.appendChild(proDiv);
+    })
+}
+
+//prints content of given todo array
 function printTodos (todos) {
     todos.forEach(todo=>{
         const todoCard=document.createElement('div');
@@ -251,6 +275,22 @@ function renderContentHeader (contentTitle) {
         <i class="todo-btn fa-solid fa-square-plus fa-xl" style="color: #232931;"></i>
     </div>`;
     contentDiv.appendChild(wrapper);
+}
+
+//rendering header content of project section
+function renderProjectHeader () {
+    const projectHeader=document.createElement('div');
+    const defaultProject=document.createElement('div');
+
+    projectHeader.classList.add('projects');
+    projectHeader.innerHTML=` <div class="pro-title">Projects</div>
+    <div class="add-pro-btn">
+        <i class="project-btn fa-solid fa-square-plus fa-xl" style="color: #232931;"></i>
+    </div>`;
+    defaultProject.classList.add('project');
+    defaultProject.innerHTML=`<a class="side-project"><i class="icon fa-solid fa-table-list" style="color: #232931;"></i>  default</a>`;
+    projectsSecion.appendChild(projectHeader);
+    projectsSecion.appendChild(defaultProject);
 }
 
 //switching status of todo
