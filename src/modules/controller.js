@@ -1,5 +1,8 @@
 import Todo from './todo';
 import Project from './project';
+import isToday from 'date-fns/isToday';
+import parseISO from 'date-fns/parseISO';
+
 
 export const ProjectsData=[];
 
@@ -23,6 +26,7 @@ export default function handlingDomEvents () {
     renderContentHeader('Inbox');
     renderProjectHeader();
     printProjects();
+    updateOverlaySelect();
 
     docBody.addEventListener('click',(event)=>{
         console.log (event.target);
@@ -37,7 +41,6 @@ export default function handlingDomEvents () {
                 projectsSecion.innerHTML='';
                 renderProjectHeader();
                 printProjects();
-                updateOverlaySelect(projectNameInput.value);
             }
             console.log (ProjectsData);
             projectNameInput.value='';
@@ -46,6 +49,7 @@ export default function handlingDomEvents () {
         // add todo button overlay events  --submit event
         if (event.target.classList.contains('todo-btn')) {
             todoBtnOverlay.hidden=false;
+            updateOverlaySelect();
         }
         if (event.target.classList.contains('todo-submit-btn')) {
             event.preventDefault();
@@ -181,6 +185,13 @@ export default function handlingDomEvents () {
             renderProjectHeader();
             printProjects(ProjectsData);
         }
+
+        //show todos today button event
+        if (event.target.classList.contains('today')) {
+            contentDiv.innerHTML='';
+            renderContentHeader('Today');
+            todosToday();
+        }
     })
 }
 
@@ -249,11 +260,14 @@ function addTodo (title,discription,dueDate,priority,selectedProject) {
 }
 
 // updating the project names in add todo overlay
-function updateOverlaySelect (projectName) {
-    const option=document.createElement('option');
-    option.text=projectName;
-    todoOverlaySelect.options.add(option);
-    console.log (project._name);  
+function updateOverlaySelect () {
+    todoOverlaySelect.innerHTML='';
+    for (let project of ProjectsData) {
+        const option=document.createElement('option');
+        option.text=project._name;
+        todoOverlaySelect.options.add(option);
+        console.log (project._name);  
+    }
 }
 
 //returning color based on priority
@@ -292,6 +306,44 @@ function renderProjectHeader () {
     </div>`;
 
     projectsSecion.appendChild(projectHeader);
+}
+
+//showing the todos for today
+function todosToday () {
+    ProjectsData.forEach((project)=>{
+        project._todos.forEach((todo)=>{
+            const theDate=parseISO(todo._dueDate);
+            console.log (theDate);
+            if (isToday(theDate)) {
+                printTodo(todo);
+            }
+        })
+    })
+}
+
+//prints single todo
+function printTodo (todo) {
+    const todoCard=document.createElement('div');
+        todoCard.classList.add('todo-card');
+        todoCard.dataset.id=todo._id;
+
+        if (todo._checked){
+            todoCard.classList.add('todo-card-checked');
+        }
+
+        todoCard.style.borderRight=getPrioColor(todo._priority);
+        todoCard.innerHTML=`
+        <p class="card-title">${todo._title}</p>
+        <p class="card-duedate">${todo._dueDate}</p>
+        <div class="card-btns">
+            <div class="card-edit">
+                <i class="edit-card fa-regular fa-pen-to-square fa-lg" style="color: #363636;"></i>
+            </div>
+            <div class="card-remove">
+                <i class="card-rm fa-solid fa-delete-left fa-lg" style="color: #212121;"></i>
+            </div>
+        </div>`;
+        contentDiv.appendChild(todoCard);
 }
 
 //switching status of todo
