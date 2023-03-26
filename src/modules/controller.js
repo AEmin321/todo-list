@@ -2,10 +2,11 @@ import Todo from './todo';
 import Project from './project';
 import isToday from 'date-fns/isToday';
 import parseISO from 'date-fns/parseISO';
-
+import isThisWeek from 'date-fns/isThisWeek';
 
 export const ProjectsData=[];
 
+//pushing default project to array
 const test=new Project('default');
 ProjectsData.push(test);
 
@@ -74,7 +75,11 @@ export default function handlingDomEvents () {
         }
         // cancel event
         if (event.target.classList.contains('todo-cancel-btn')) {
-            todoOverlayCancel.addEventListener('click',()=>todoBtnOverlay.hidden=true)
+            todoOverlayCancel.addEventListener('click',()=>{
+                todoBtnOverlay.hidden=true;
+                todoSubmitBtn.hidden=false;
+                todoUpdateBtn.hidden=true;
+            })
         }
 
         // leftside project button events
@@ -166,6 +171,7 @@ export default function handlingDomEvents () {
             contentDiv.textContent='';
             renderContentHeader(projectName);
             printTodos(ProjectsData[projectIndex]._todos);
+
             todoSubmitBtn.hidden=false;
             todoUpdateBtn.hidden=true;
             todoBtnOverlay.hidden=true;
@@ -191,6 +197,13 @@ export default function handlingDomEvents () {
             contentDiv.innerHTML='';
             renderContentHeader('Today');
             todosToday();
+        }
+
+        //show todos this week event
+        if (event.target.classList.contains('week')) {
+            contentDiv.innerHTML='';
+            renderContentHeader('Week');
+            todosThisWeek();
         }
     })
 }
@@ -316,6 +329,18 @@ function todosToday () {
             console.log (theDate);
             if (isToday(theDate)) {
                 printTodo(todo);
+            }
+        })
+    })
+}
+
+//showing todos this week
+function todosThisWeek () {
+    ProjectsData.forEach((project)=>{
+        project._todos.forEach((todo)=>{
+            const theDate=parseISO(todo._dueDate);
+            if (isThisWeek(theDate)){
+                printTodo(todo,{ weekStartsOn: 1 });
             }
         })
     })
