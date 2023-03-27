@@ -3,6 +3,7 @@ import Project from './project';
 import isToday from 'date-fns/isToday';
 import parseISO from 'date-fns/parseISO';
 import isThisWeek from 'date-fns/isThisWeek';
+import { format } from 'date-fns';
 
 let ProjectsData=[];
 console.log (localStorage.getItem('ProjectsData'));
@@ -268,7 +269,7 @@ function printTodos (todos) {
         todoCard.style.borderRight=getPrioColor(todo._priority);
         todoCard.innerHTML=`
         <p class="card-title">${todo._title}</p>
-        <p class="card-duedate">${todo._dueDate}</p>
+        <p class="card-duedate">${formatGivenDate(todo._dueDate)}</p>
         <div class="card-btns">
             <div class="card-edit">
                 <i class="edit-card fa-regular fa-pen-to-square fa-lg" style="color: #363636;"></i>
@@ -390,7 +391,7 @@ function printTodo (todo) {
     todoCard.style.borderRight=getPrioColor(todo._priority);
     todoCard.innerHTML=`
     <p class="card-title">${todo._title}</p>
-    <p class="card-duedate">${todo._dueDate}</p>
+    <p class="card-duedate">${formatGivenDate(todo._dueDate)}</p>
     <div class="card-btns">
         <div class="card-edit">
             <i class="edit-card fa-regular fa-pen-to-square fa-lg" style="color: #363636;"></i>
@@ -410,6 +411,12 @@ function switchChecked (todo) {
     else if (todo._checked) {
         todo.checked=false;
     }
+}
+
+//formats date to RFC 7231
+function formatGivenDate (date) {
+    const theDate=parseISO(date);
+    return format(theDate,'MMMM dd, yyyy');
 }
 
 function setStorage (arr) {
