@@ -210,15 +210,23 @@ export default function handlingDomEvents () {
         if (event.target.classList.contains('remove-project')) {
             const projectIndex=event.target.parentElement.parentElement.dataset.id;
 
+            contentDiv.textContent='';
+            projectsSecion.innerHTML='';
+
+            renderContentHeader('Index');
+            renderProjectHeader();
+
             ProjectsData.forEach((project,index)=>{
                 if (project._id==projectIndex) {
                     ProjectsData.splice(index,1);
                     setStorage(ProjectsData);
                 }
             })
-            projectsSecion.innerHTML='';
-            renderProjectHeader();
-            printProjects(ProjectsData);
+
+            ProjectsData.forEach((project)=>{
+                printTodos(project._todos);
+            })
+            printProjects();
         }
 
         //show todos today button event
