@@ -6,9 +6,9 @@ export default class Project {
         this._name=name;
         this._todos=[];
     }
-    removeTodo (index) {
-        this._todos.splice(index,1);
-    }
+    // removeTodo (index) {
+        
+    // }
     get name () {
         return this._name;
     }

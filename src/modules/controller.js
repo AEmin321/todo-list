@@ -4,11 +4,12 @@ import isToday from 'date-fns/isToday';
 import parseISO from 'date-fns/parseISO';
 import isThisWeek from 'date-fns/isThisWeek';
 
-export const ProjectsData=[];
+let ProjectsData=[];
+console.log (localStorage.getItem('ProjectsData'));
+console.log (JSON.parse(localStorage.getItem('ProjectsData')))
 
-//pushing default project to array
-const test=new Project('default');
-ProjectsData.push(test);
+
+
 
 const docBody=document.querySelector('body');
 const proBtnOverlay=document.querySelector('.add-pro-overlay');
@@ -26,9 +27,24 @@ const projectSelectDiv=document.querySelector('.project-select');
 export default function handlingDomEvents () {
     renderContentHeader('Inbox');
     renderProjectHeader();
-    printProjects();
-    updateOverlaySelect();
-
+    
+    if(localStorage.getItem('ProjectsData')==null) {
+        let test=new Project('default');
+        ProjectsData.push(test);
+        setStorage(ProjectsData);
+        printProjects();
+    }
+    else {
+        ProjectsData=JSON.parse(localStorage.getItem('ProjectsData'));
+        updateOverlaySelect();
+        printProjects();
+        //prints every projects todos]
+        ProjectsData.forEach((project)=>{
+            printTodos(project._todos);
+        })
+    }
+    
+    
     docBody.addEventListener('click',(event)=>{
         console.log (event.target);
         // add project btn overlay events
@@ -41,6 +57,7 @@ export default function handlingDomEvents () {
                 addProject(projectNameInput.value);
                 projectsSecion.innerHTML='';
                 renderProjectHeader();
+                setStorage(ProjectsData);
                 printProjects();
             }
             console.log (ProjectsData);
@@ -85,10 +102,11 @@ export default function handlingDomEvents () {
         // leftside project button events
         if (event.target.classList.contains('side-project') || event.target.classList.contains('project')) {
             const proName=event.target.textContent;
+
             for (let pro of ProjectsData) {
                 console.log (typeof pro._name+'==');
                 if (proName.toLowerCase().trim() === pro._name.toLowerCase().trim()) {
-                    console.log ("it passed the test bro");
+                    console.log ("it passed the test");
                     contentDiv.textContent='';
                     renderContentHeader(proName);
                     printTodos(pro._todos);
@@ -100,6 +118,7 @@ export default function handlingDomEvents () {
         if (event.target.classList.contains('inbox') || event.target.classList.contains('inbox-link')) {
             contentDiv.textContent='';
             renderContentHeader('Inbox');
+
             ProjectsData.forEach((project)=>{
                 printTodos(project._todos);
             })
@@ -109,27 +128,32 @@ export default function handlingDomEvents () {
         if (event.target.classList.contains('card-rm')) {
             const getId=event.target.parentElement.parentElement.parentElement.dataset.id;
             console.log (getId);
+
             ProjectsData.forEach((project)=>{
                 project._todos.forEach((todo,index)=>{
                     if (todo._id==getId) {
-                        project.removeTodo(index);
+                        console.log (project);
+                        project._todos.splice(index,1);
                         contentDiv.textContent='';
                         renderContentHeader(project._name);
                         printTodos(project._todos);
                     }
                 })
             })
+            setStorage(ProjectsData);
         }
 
         //project card toggle check event handler
         if (event.target.classList.contains('card-title')) {
             const todoCardId=event.target.parentElement.dataset.id;
             const todoCard=event.target.parentElement;
+
             ProjectsData.forEach((project)=>{
                 project._todos.forEach((todo)=>{
                     if (todo._id==todoCardId) {
                         switchChecked(todo);
                         todoCard.classList.toggle('todo-card-checked');
+                        setStorage(ProjectsData);
                     }
                 })
             })
@@ -138,6 +162,7 @@ export default function handlingDomEvents () {
         //todo card edit overlay button event handler
         if (event.target.classList.contains('edit-card')) {
             const cardId=event.target.parentElement.parentElement.parentElement.dataset.id;
+
             ProjectsData.forEach((project,projectIndex)=>{
                 project._todos.forEach((todo,todoIndex)=>{
                     if (todo._id==cardId) {
@@ -171,6 +196,7 @@ export default function handlingDomEvents () {
             contentDiv.textContent='';
             renderContentHeader(projectName);
             printTodos(ProjectsData[projectIndex]._todos);
+            setStorage(ProjectsData);
 
             todoSubmitBtn.hidden=false;
             todoUpdateBtn.hidden=true;
@@ -182,9 +208,11 @@ export default function handlingDomEvents () {
         //remove project button event
         if (event.target.classList.contains('remove-project')) {
             const projectIndex=event.target.parentElement.parentElement.dataset.id;
+
             ProjectsData.forEach((project,index)=>{
                 if (project._id==projectIndex) {
                     ProjectsData.splice(index,1);
+                    setStorage(ProjectsData);
                 }
             })
             projectsSecion.innerHTML='';
@@ -212,6 +240,7 @@ export default function handlingDomEvents () {
 function addProject (name) {
     const newProject=new Project(name);
     ProjectsData.push(newProject);
+    setStorage(ProjectsData);
 }
 
 //prints projects inside array
@@ -259,6 +288,7 @@ function updateTodo (todo) {
         todo.discription=todoForm.elements.details.value;
         todo.dueDate=todoForm.elements.dueDate.value;
         todo.priority=todoForm.elements.priority.value;
+        setStorage(ProjectsData);
     }
 }
 
@@ -268,6 +298,7 @@ function addTodo (title,discription,dueDate,priority,selectedProject) {
         if (project._name===selectedProject) {
             const todo=new Todo(title,discription,dueDate,priority);
             project._todos.push(todo);
+            setStorage(ProjectsData);
         }
     })
 }
@@ -275,6 +306,7 @@ function addTodo (title,discription,dueDate,priority,selectedProject) {
 // updating the project names in add todo overlay
 function updateOverlaySelect () {
     todoOverlaySelect.innerHTML='';
+
     for (let project of ProjectsData) {
         const option=document.createElement('option');
         option.text=project._name;
@@ -310,7 +342,6 @@ function renderContentHeader (contentTitle) {
 //rendering header content of project section
 function renderProjectHeader () {
     const projectHeader=document.createElement('div');
-    const defaultProject=document.createElement('div');
 
     projectHeader.classList.add('projects');
     projectHeader.innerHTML=` <div class="pro-title">Projects</div>
@@ -349,26 +380,26 @@ function todosThisWeek () {
 //prints single todo
 function printTodo (todo) {
     const todoCard=document.createElement('div');
-        todoCard.classList.add('todo-card');
-        todoCard.dataset.id=todo._id;
+    todoCard.classList.add('todo-card');
+    todoCard.dataset.id=todo._id;
 
-        if (todo._checked){
-            todoCard.classList.add('todo-card-checked');
-        }
+    if (todo._checked){
+        todoCard.classList.add('todo-card-checked');
+    }
 
-        todoCard.style.borderRight=getPrioColor(todo._priority);
-        todoCard.innerHTML=`
-        <p class="card-title">${todo._title}</p>
-        <p class="card-duedate">${todo._dueDate}</p>
-        <div class="card-btns">
-            <div class="card-edit">
-                <i class="edit-card fa-regular fa-pen-to-square fa-lg" style="color: #363636;"></i>
-            </div>
-            <div class="card-remove">
-                <i class="card-rm fa-solid fa-delete-left fa-lg" style="color: #212121;"></i>
-            </div>
-        </div>`;
-        contentDiv.appendChild(todoCard);
+    todoCard.style.borderRight=getPrioColor(todo._priority);
+    todoCard.innerHTML=`
+    <p class="card-title">${todo._title}</p>
+    <p class="card-duedate">${todo._dueDate}</p>
+    <div class="card-btns">
+        <div class="card-edit">
+            <i class="edit-card fa-regular fa-pen-to-square fa-lg" style="color: #363636;"></i>
+        </div>
+        <div class="card-remove">
+            <i class="card-rm fa-solid fa-delete-left fa-lg" style="color: #212121;"></i>
+        </div>
+    </div>`;
+    contentDiv.appendChild(todoCard);
 }
 
 //switching status of todo
@@ -379,6 +410,10 @@ function switchChecked (todo) {
     else if (todo._checked) {
         todo.checked=false;
     }
+}
+
+function setStorage (arr) {
+    localStorage.setItem('ProjectsData',JSON.stringify(arr));
 }
 
 
