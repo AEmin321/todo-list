@@ -202,6 +202,19 @@ body {
     flex-direction: column;
 }
 
+.project-error {
+    font-size: 0.7rem;
+    color: #4ECCA3;
+}
+
+/* input:invalid {
+    box-shadow: 0 0 5px 1px #4ECCA3;
+}
+
+input:focus:invalid {
+    box-shadow: none;
+} */
+
 .form-btns {
     align-self: center;
     padding: 12px;

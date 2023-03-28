@@ -24,6 +24,7 @@ const todoOverlayCancel=document.querySelector('.todo-cancel-btn');
 const todoUpdateBtn=document.querySelector('.todo-update-btn');
 const todoSubmitBtn=document.querySelector('.todo-submit-btn');
 const projectSelectDiv=document.querySelector('.project-select');
+const projectErrorDiv=document.querySelector('.project-error');
 
 export default function handlingDomEvents () {
     renderContentHeader('Inbox');
@@ -60,6 +61,10 @@ export default function handlingDomEvents () {
                 renderProjectHeader();
                 setStorage(ProjectsData);
                 printProjects();
+                projectErrorDiv.textContent='';
+            }
+            if (!projectNameInput.checkValidity()) {
+                projectErrorDiv.textContent=projectNameInput.validationMessage;
             }
             console.log (ProjectsData);
             projectNameInput.value='';
