@@ -202,7 +202,7 @@ body {
     flex-direction: column;
 }
 
-.project-error {
+.project-error,.todo-error {
     font-size: 0.7rem;
     color: #4ECCA3;
 }

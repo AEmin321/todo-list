@@ -42,7 +42,7 @@
                 </div>
                 <div>
                     <label for="date">Date</label>
-                    <input type="date" id="date" name="dueDate" required>
+                    <input type="date" id="date" name="dueDate" min="2023-03-28" max="2030-05-10" required>
                 </div>
                 <div>
                     <label for="priority">Priority</label>
@@ -61,6 +61,7 @@
                     <button type="reset" class="todo-cancel-btn">Cancel</button>
                     <button type="submit" class="todo-submit-btn">Submit</button>
                     <button class="todo-update-btn" hidden>Update</button>
+                    <div class="todo-error"></div>
                 </div>
             </form>
         </div>
