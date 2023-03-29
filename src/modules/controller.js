@@ -25,6 +25,7 @@ const todoUpdateBtn=document.querySelector('.todo-update-btn');
 const todoSubmitBtn=document.querySelector('.todo-submit-btn');
 const projectSelectDiv=document.querySelector('.project-select');
 const projectErrorDiv=document.querySelector('.project-error');
+const todoErrorDiv=document.querySelector('.todo-error');
 
 export default function handlingDomEvents () {
     renderContentHeader('Inbox');
@@ -74,6 +75,8 @@ export default function handlingDomEvents () {
         if (event.target.classList.contains('todo-btn')) {
             todoBtnOverlay.hidden=false;
             updateOverlaySelect();
+            todoErrorDiv.textContent='';
+            todoErrorDiv.textContent='';
         }
         if (event.target.classList.contains('todo-submit-btn')) {
             event.preventDefault();
@@ -83,8 +86,8 @@ export default function handlingDomEvents () {
             const priority=todoForm.elements.priority.value;
             const project=todoForm.elements.project.value;
 
-            if (title!='' && date!='') {
-                addTodo(title,discription,date,priority,project);
+            if (todoForm.elements.title.checkValidity() && todoForm.elements.dueDate.checkValidity()) {
+                addTodo(title,discription,date,priority,project);   
                 ProjectsData.forEach((pro)=>{
                     if (project.toLowerCase().trim()===pro._name.toLowerCase().trim()) {
                         contentDiv.textContent='';
@@ -95,6 +98,12 @@ export default function handlingDomEvents () {
                     }
                 })
             } 
+            if (!todoForm.elements.title.checkValidity()) {    
+                todoErrorDiv.textContent=todoForm.elements.title.setCustomValidity='Please fill out title field.';
+            }
+            if (!todoForm.elements.dueDate.checkValidity()) {
+                todoErrorDiv.textContent=todoForm.elements.dueDate.setCustomValidity='Please fill out date field properly.';
+            }
         }
         // cancel event
         if (event.target.classList.contains('todo-cancel-btn')) {
